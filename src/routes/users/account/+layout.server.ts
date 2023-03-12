@@ -3,7 +3,8 @@ import { redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').LayoutServerLoad} */
 export function load({ locals }: RequestEvent) {
-	if (!locals.authenticated) {
-	  throw redirect(307, '/auth/validate-email');
+	const session = locals.getSession()
+	if (!session) {
+	  throw redirect(307, '/');
 	} 
 }

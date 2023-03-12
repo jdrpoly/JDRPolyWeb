@@ -3,10 +3,8 @@
 CREATE TABLE public.users(
 	id SERIAL PRIMARY KEY,
 	email VARCHAR(255) NOT NULL,
-	is_email_validated BOOLEAN NOT NULL,
-	name VARCHAR(255) NOT NULL,
-	password VARCHAR(255) NOT NULL,
 	role VARCHAR(255) NOT NULL,
+	name VARCHAR(255),
 	account_creation DATE NOT NULL DEFAULT CURRENT_DATE,
 	discord_id VARCHAR(255),
 	bio TEXT,

@@ -5,17 +5,20 @@
 	import type { User } from '$gtypes';
 	import { invalidateAll } from '$app/navigation';
 	import { hasRolePermission, UserPermission } from '$lib/userPermissions';
+	import { signIn, signOut } from "@auth/sveltekit/client"
 
 	let responsive = false;
 
 	let user: User;
 	let authenticated: Boolean;
+	
 	$: user = $page.data.user;
 	$: authenticated = $page.data.authenticated;
-
+	
+	user = $page.data.user
+	
 	async function logout() {
-		const res = await fetch('/api/auth/logout', { method: 'POST' });
-		invalidateAll();
+		signOut()
 	}
 </script>
 
@@ -170,10 +173,10 @@
 			/>
 		</div>
 	{:else}
-		<a class="log-button nav-button" href="/auth/login">
+		<button class="log-button nav-button" on:click={() => signIn("")}>
 			<span class="material-symbols-outlined link-icon">login</span>
 			<p class="">Se connecter</p>
-		</a>
+		</button>
 	{/if}
 
 	<div id="nav-icon" class="">
@@ -205,9 +208,9 @@
 		display: flex;
 
 		.log-button {
+			background-color: #030528;
 			margin-left: auto;
 			border: solid 1px $secondary;
-
 			* {
 				display: inline;
 				vertical-align: middle;

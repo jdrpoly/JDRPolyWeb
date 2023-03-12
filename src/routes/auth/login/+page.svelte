@@ -1,28 +1,25 @@
 <script lang="ts">
 	import type { ActionData } from "./$types";
+	import { page } from "$app/stores"
+	import { signIn, signOut } from "@auth/sveltekit/client"
 
 	let email = '';
 	let password = '';
 
 	export let form: ActionData;
+
 </script>
 
-<div>
-	<h1>Se connecter</h1>
-
-	<form method="POST">
-		<input name="email" type="email" bind:value={email} placeholder="Mail" />
-		<input name="password" type="password" bind:value={password} placeholder="Mot de passe" />
-	
-		<button type='submit'>Se connecter</button>
-
-		{#if form?.incorrectFormat}<p class="error">Entrez un mail et mot de passe correct</p>{/if}
-		{#if form?.wrongCreditentials}<p class="error">Mot de passe ou email incorrect</p>{/if}
-	</form>
-
-</div>
-
-<a href="/auth/register">Vous ne possédez pas de compte ?</a>
+{#if $page.data.user}
+    <span class="signedInText">
+      <small>Signed in as</small><br />
+      <strong>{$page.data.user?.name ?? "User"}</strong>
+    </span>
+    <button on:click={() => signOut()} class="button">Sign out</button>
+  {:else}
+    <span class="notSignedInText">You are not signed in</span>
+    <button >Sign In with GitHub</button>
+{/if}
 
 <style>
 	div {

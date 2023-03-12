@@ -22,6 +22,7 @@ type User = {
 	email?: string,
 	name?: string,
 	role?: Role,
+	image?: string,
 	is_email_validated?: boolean,
 	account_creation?: Date,
 	discord_id?: string,

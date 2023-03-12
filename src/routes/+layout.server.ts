@@ -1,9 +1,17 @@
-import type { RequestEvent } from "@sveltejs/kit";
+import type { User } from "$gtypes";
+import { redirect, type RequestEvent } from "@sveltejs/kit";
 
-/** @type {import('./$types').LayoutServerLoad} */
-export async function load({ locals }: RequestEvent) {;
+export async function load({ locals, url }: RequestEvent) {;
+	const defaultSession = await locals.getSession()
+	if(!defaultSession) return { authenticated: false }
+	
+	const user: User = (defaultSession as any).user
+	
+	if(!user.name && url.pathname != '/auth/fillup') {
+		throw redirect(307, '/auth/fillup');
+	}
 	return {
-        authenticated: locals.authenticated,
-        user: locals.user
-    };
+	  user: user,
+	  authenticated: true
+	}
 }
